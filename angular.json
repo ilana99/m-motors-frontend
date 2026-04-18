@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "m-motors-frontt": {
+    "m-motors-front": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,16 +61,21 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "m-motors-frontt:build:production"
+              "buildTarget": "m-motors-front:build:production"
             },
             "development": {
-              "buildTarget": "m-motors-frontt:build:development"
+              "buildTarget": "m-motors-front:build:development"
             }
           },
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runnerConfig": true,
+            "tsConfig": "tsconfig.spec.json",
+            "coverage": true
+          }
         }
       }
     }

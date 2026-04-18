@@ -1,0 +1,68 @@
+<div class="container-sm d-flex flex-column gap-1 justify-content-evenly mt-4">
+    <h3 class="m-auto">Création du compte</h3>
+    <form [formGroup]="signupForm" (ngSubmit)="signup()" class="d-flex flex-column gap-3 justify-content-evenly mt-4">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                formControlName="email" required>
+            <label for="floatingInput">Email*</label>
+            @if (signupForm.get('email')!.invalid && (signupForm.get('email')!.dirty ||
+            signupForm.get('email')!.touched)) {
+            @if (signupForm.get('email')!.hasError('required')) {
+            <div class="text-danger">L'email est obligatoire.</div>
+            }
+            @if (signupForm.get('email')!.hasError('email')) {
+            <div class="text-danger">Veuillez entrer une adresse email valide.</div>
+            }
+            }
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                formControlName="password" required>
+            <label for="floatingPassword">Mot de passe*</label>
+            @if (signupForm.get('password')!.invalid && (signupForm.get('password')!.dirty ||
+            signupForm.get('password')!.touched)) {
+            @if (signupForm.get('password')!.hasError('required')) {
+            <div class="text-danger">Le mot de passe est obligatoire.</div>
+            }
+            @if (signupForm.get('password')!.hasError('minlength')) {
+            <div class="text-danger">Le mot de passe doit contenir au moins 6 caractères.</div>
+            }
+            }
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput2" placeholder="Maria" formControlName="name"
+                required>
+            <label for="floatingInput2">Prénom*</label>
+            @if (signupForm.get('name')!.invalid && (signupForm.get('name')!.dirty || signupForm.get('name')!.touched))
+            {
+            <div class="text-danger">Le prénom est obligatoire.</div>
+            }
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput3" placeholder="Marie" formControlName="surname"
+                required>
+            <label for="floatingInput3">Nom*</label>
+            @if (signupForm.get('surname')!.invalid && (signupForm.get('surname')!.dirty ||
+            signupForm.get('surname')!.touched)) {
+            <div class="text-danger">Le nom est obligatoire.</div>
+            }
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput4" placeholder="1999-01-01"
+                formControlName="birthday" required>
+            <label for="floatingInput4">Date de naissance*</label>
+            <div id="emailHelp" class="form-text">Au format: AAAA-MM-JJ.</div>
+            @if (signupForm.get('birthday')!.invalid && (signupForm.get('birthday')!.dirty ||
+            signupForm.get('birthday')!.touched)) {
+            <div class="text-danger">La date de naissance est obligatoire.</div>
+            }
+        </div>
+        <button type="submit" class="btn btn-primary w-50 m-auto" [disabled]="signupForm.invalid">S'inscrire</button>
+    </form>
+    @if (signupReponse === 'accepted') {
+    <p>Compte crée!</p>
+    }
+    @if (signupReponse === 'error') {
+    <p class="text-danger">Erreur lors de la création.</p>
+    }
+</div>
