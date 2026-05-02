@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Api } from '../../services/api';
 
@@ -9,7 +9,7 @@ import { Api } from '../../services/api';
   styleUrl: './signup.scss',
 })
 export class Signup {
-  signupReponse: string = '';
+  signupReponse = signal('');
 
   signupForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -19,25 +19,27 @@ export class Signup {
     birthday: new FormControl('', Validators.required)
   });
 
-  constructor(private apiService: Api) {}
+  constructor(private apiService: Api) { }
 
-signup(): void {
-  if (this.signupForm.invalid) {
-    return;
-  }
+  signup(): void {
+    if (this.signupForm.invalid) {
+      return;
+    }
 
-  const data = this.signupForm.value;
+    this.signupReponse.set('');
+
+    const data = this.signupForm.value;
 
     this.apiService.signup(data).subscribe({
-    next: (response) => {
-       if (response.status === 201) {
-        this.signupReponse = 'accepted';
-    }
-   },
-    error: (error) => {
-        this.signupReponse = 'error';
+      next: (response) => {
+        if (response.status === 201) {
+          this.signupReponse.set('accepted');
+        }
+      },
+      error: (error) => {
+        this.signupReponse.set('error');
         console.log(error);
-    }
-   })
-}
+      }
+    })
+  }
 }
