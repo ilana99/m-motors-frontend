@@ -35,6 +35,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -49,6 +55,17 @@
               ],
               "outputHashing": "all"
             },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -62,6 +79,9 @@
           "configurations": {
             "production": {
               "buildTarget": "m-motors-front:build:production"
+            },
+            "dev": {
+              "buildTarget": "m-motors-front:build:dev"
             },
             "development": {
               "buildTarget": "m-motors-front:build:development"
