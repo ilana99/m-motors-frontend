@@ -23,12 +23,16 @@ export class Api {
     return this.Http.get<any>(`${this.apiUrl}/auth/me`, this.httpOptions);
   }
 
-  signup(data: any): Observable<any> {
+  signup(data: any): Observable<HttpResponse<any>> {
     return this.Http.post<any>(`${this.apiUrl}/auth/signup`, data, this.httpOptions);
   }
 
   logout(): Observable<HttpResponse<any>> {
     return this.Http.post<any>(`${this.apiUrl}/auth/logout`, {}, this.httpOptions);
+  }
+
+  findAllCars(): Observable<HttpResponse<any>> {
+    return this.Http.get<any>(`${this.apiUrl}/cars`, this.httpOptions);
   }
 
 }
