@@ -1,0 +1,43 @@
+<div class="container-fluid m-auto d-flex flex-wrap gap-3 my-4 justify-content-center">
+    @for (car of getPagedCars(); track car.id || $index) {
+    <div class="card bg-light car-card" style="width: 18rem;">
+        @if (car.images?.length) {
+        <img [src]="car.images[0]" class="card-img-top gallery-car-image" [alt]="car.brand + ' ' + car.model">
+        } @else {
+        <img src="car.jpg" class="card-img-top gallery-car-image" [alt]="car.brand + ' ' + car.model">
+        }
+        <div class="card-body">
+            <p class="card-text fw-bold">{{ getServiceLabel(car.service) }}</p>
+            <h5 class="card-title">{{ car.brand }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ car.model }}</h6>
+            @if (car.service === 'Leasing') {
+            <p class="card-text">À partir de <b>{{ car.price }}</b> € / mois</p>
+            } @else {
+            <p class="card-text fw-bold">{{ car.price }} €</p>
+            }
+        </div>
+    </div>
+    } @empty {
+    <p class="text-body-secondary">Aucune voiture trouvée.</p>
+    }
+</div>
+
+@if (getTotalPages() > 1) {
+<nav aria-label="Pagination des voitures">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" type="button" (click)="goToPage(currentPage - 1)">Précédent</button>
+        </li>
+
+        @for (page of getPages(); track page) {
+        <li class="page-item" [class.active]="page === currentPage">
+            <button class="page-link" type="button" (click)="goToPage(page)">{{ page }}</button>
+        </li>
+        }
+
+        <li class="page-item" [class.disabled]="currentPage === getTotalPages()">
+            <button class="page-link" type="button" (click)="goToPage(currentPage + 1)">Suivant</button>
+        </li>
+    </ul>
+</nav>
+}

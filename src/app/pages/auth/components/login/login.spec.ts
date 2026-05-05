@@ -1,15 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { Login } from './login';
-import { Api } from '../../services/api';
+import { AuthService } from '../../../../services/auth';
 
 describe('Login', () => {
   let component: Login;
   let fixture: ComponentFixture<Login>;
   let loginSpy: any;
+  let navigateSpy: any;
 
   beforeEach(async () => {
     loginSpy = vi.fn();
@@ -19,13 +20,15 @@ describe('Login', () => {
       providers: [
         provideRouter([]),
         {
-          provide: Api,
+          provide: AuthService,
           useValue: {
             login: loginSpy,
           },
         },
       ],
     }).compileComponents();
+
+    navigateSpy = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
 
     fixture = TestBed.createComponent(Login);
     component = fixture.componentInstance;
@@ -62,6 +65,13 @@ describe('Login', () => {
       expect(component.loginResponse()).toBe('connected');
     });
 
+    it('should redirect to cars on successful login', () => {
+      loginSpy.mockReturnValue(of({ status: 200 }));
+      component.login();
+
+      expect(navigateSpy).toHaveBeenCalledWith(['/cars']);
+    });
+
     it('should set loginResponse to "error" on 401 failure', () => {
       loginSpy.mockReturnValue(
         throwError(() => new HttpErrorResponse({ status: 401 }))
@@ -69,6 +79,7 @@ describe('Login', () => {
       component.login();
 
       expect(component.loginResponse()).toBe('error');
+      expect(navigateSpy).not.toHaveBeenCalled();
     });
 
     it('should move from error to connected on a later successful attempt', () => {

@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../../services/auth';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { AuthService } from '../../../../services/auth';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -18,16 +18,17 @@ export class Login {
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   login(): void {
     this.loginResponse.set('');
     const data = this.loginForm.value;
 
     this.auth.login(data).subscribe({
-      next: (response) => {
+      next: (response: HttpResponse<any>) => {
         if (response.status === 200 || response.status === 201) {
           this.loginResponse.set('connected');
+          this.router.navigate(['/']);
         }
       },
       error: (error: HttpErrorResponse) => {

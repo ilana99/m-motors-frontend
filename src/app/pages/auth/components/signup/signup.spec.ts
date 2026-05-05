@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { Signup } from './signup';
-import { Api } from '../../services/api';
+import { Api } from '../../../../services/api';
 
 describe('Signup', () => {
   let component: Signup;

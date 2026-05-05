@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Api } from '../../services/api';
+import { Api } from '../../../../services/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +21,7 @@ export class Signup {
     birthday: new FormControl('', Validators.required)
   });
 
-  constructor(private apiService: Api) { }
+  constructor(private apiService: Api, private router: Router) { }
 
   signup(): void {
     if (this.signupForm.invalid) {
@@ -31,12 +33,12 @@ export class Signup {
     const data = this.signupForm.value;
 
     this.apiService.signup(data).subscribe({
-      next: (response) => {
+      next: (response: HttpResponse<any>) => {
         if (response.status === 201) {
-          this.signupReponse.set('accepted');
+          this.router.navigate(['/'])
         }
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         this.signupReponse.set('error');
         console.log(error);
       }

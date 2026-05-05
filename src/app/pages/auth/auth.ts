@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Login } from '../../components/login/login';
-import { Signup } from '../../components/signup/signup';
+import { Login } from './components/login/login';
+import { Signup } from './components/signup/signup';
 
 @Component({
   selector: 'app-auth',
