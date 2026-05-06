@@ -28,7 +28,7 @@ export class Login {
       next: (response: HttpResponse<any>) => {
         if (response.status === 200 || response.status === 201) {
           this.loginResponse.set('connected');
-          this.router.navigate(['/']);
+          this.router.navigate(['/cars']);
         }
       },
       error: (error: HttpErrorResponse) => {
