@@ -23,6 +23,10 @@ export class Api {
     return this.Http.get<any>(`${this.apiUrl}/auth/me`, this.httpOptions);
   }
 
+  getProfile(): Observable<HttpResponse<any>> {
+    return this.Http.get<any>(`${this.apiUrl}/user/profile`, this.httpOptions);
+  }
+
   signup(data: any): Observable<HttpResponse<any>> {
     return this.Http.post<any>(`${this.apiUrl}/auth/signup`, data, this.httpOptions);
   }

@@ -3,7 +3,6 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient } from '@angular/common/http';
 
 import { Api } from './api';
-import { environment } from '../../environments/environment';
 
 describe('Api', () => {
   let service: Api;

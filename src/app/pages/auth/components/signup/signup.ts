@@ -35,7 +35,8 @@ export class Signup {
     this.apiService.signup(data).subscribe({
       next: (response: HttpResponse<any>) => {
         if (response.status === 201) {
-          this.router.navigate(['/'])
+          this.signupReponse.set('accepted');
+          this.router.navigate(['/']);
         }
       },
       error: (error: HttpErrorResponse) => {
