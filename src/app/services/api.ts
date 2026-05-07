@@ -39,4 +39,8 @@ export class Api {
     return this.Http.get<any>(`${this.apiUrl}/cars`, this.httpOptions);
   }
 
+  findOneCar(id: string): Observable<HttpResponse<any>> {
+    return this.Http.get<any>(`${this.apiUrl}/cars/${id}`, this.httpOptions);
+  }
+
 }
