@@ -1,9 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Api } from '../../../../services/api';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-gallery',
-  imports: [],
   templateUrl: './gallery.html',
   styleUrl: './gallery.scss',
 })
@@ -11,6 +11,7 @@ export class Gallery implements OnInit {
   cars = signal<any[]>([]);
   currentPage = 1;
   pageSize = 12;
+  private router = inject(Router);
 
   constructor(private apiService: Api) { }
 
@@ -21,6 +22,10 @@ export class Gallery implements OnInit {
       },
       error: (error) => console.log(error),
     });
+  }
+
+  navigateToDetailedCarPage(carId: number) {
+    this.router.navigate(['/cars', carId])
   }
 
   getServiceLabel(service: string): string {

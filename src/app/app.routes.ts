@@ -3,6 +3,7 @@ import { Auth } from './pages/auth/auth';
 import { Cars } from './pages/cars/cars';
 import { Profile } from './pages/profile/profile';
 import { loggedInGuard } from './services/logged-in.guard';
+import { CarDetailed } from './pages/car-detailed/car-detailed/car-detailed';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,10 @@ export const routes: Routes = [
     {
         path: 'cars',
         component: Cars,
+    },
+    {
+        path: 'cars/:id',
+        component: CarDetailed,
     },
     {
         path: 'profil',
