@@ -36,11 +36,15 @@ export class Api {
   }
 
   findAllCars(): Observable<HttpResponse<any>> {
-    return this.Http.get<any>(`${this.apiUrl}/cars`, this.httpOptions);
+    return this.Http.get<any>(`${this.apiUrl}/cars/status/available`, this.httpOptions);
   }
 
   findOneCar(id: string): Observable<HttpResponse<any>> {
     return this.Http.get<any>(`${this.apiUrl}/cars/${id}`, this.httpOptions);
+  }
+
+  submitClientFile(data: FormData): Observable<HttpResponse<any>> {
+    return this.Http.post<any>(`${this.apiUrl}/clientfile/`, data, this.httpOptions);
   }
 
 }

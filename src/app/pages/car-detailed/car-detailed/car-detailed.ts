@@ -1,10 +1,10 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Api } from '../../../services/api';
 
 @Component({
   selector: 'app-car-detailed',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './car-detailed.html',
   styleUrl: './car-detailed.scss',
 })

@@ -1,0 +1,114 @@
+<div class="container-sm m-auto d-flex flex-column gap-1 justify-content-evenly mt-4">
+    <div class="d-flex">
+        <button type="button" class="btn btn-lg align-self-start" (click)="router.navigate(['/cars'])">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <h3 class="m-auto">Déposer un dossier pour: {{car()?.brand}} {{car()?.model}}</h3>
+    </div>
+    <p class="text-center">{{getServiceLabel(car()?.service)}}</p>
+    <p class=" text-center">Merci de noter que vous ne pouvez déposer qu'un dossier à la fois.</p>
+    <form class="d-flex flex-column gap-3 justify-content-evenly mt-4" [formGroup]="submissionForm"
+        (ngSubmit)="submit()">
+        <div class="d-flex flex-column gap-3">
+            <div>
+                <div class="mb-3">
+                    <label for="surname" class="fw-medium mb-2">Nom</label>
+                    <input type="text" class="form-control" id="surname" [value]="user()?.surname" disabled>
+                </div>
+            </div>
+            <div>
+                <div class="mb-3">
+                    <label for="name" class="fw-medium mb-2">Prénom</label>
+                    <input type="text" class="form-control" id="name" [value]="user()?.name" disabled>
+                </div>
+            </div>
+            <div>
+                <div class="mb-3">
+                    <label for="email" class="fw-medium mb-2">Email</label>
+                    <input type="email" class="form-control" id="email" [value]="user()?.email" disabled>
+                </div>
+            </div>
+            <div>
+                <div class="mb-3">
+                    <label for="birthday" class="fw-medium mb-2">Date de naissance</label>
+                    <input type="text" class="form-control" id="birthday" [value]="user()?.birthday" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="identityCard" class="form-label fw-medium">Carte d'identité *</label>
+            <input #identityCardInput type="file" class="form-control" id="identityCard" name="identityCard"
+                accept="image/*" [class.is-invalid]="shouldShowError('identityCard')"
+                (change)="updateIdentityCard($event)">
+            @if (shouldShowError('identityCard')) {
+            <div class="invalid-feedback d-block">La carte d'identité est obligatoire.</div>
+            }
+            @if (identityCardFile(); as identityCard) {
+            <div class="mt-2 position-relative d-inline-block">
+                <img [src]="identityCard.url" class="img-thumbnail" alt="Carte d'identité">
+                <button type="button"
+                    class="btn btn-danger btn-sm position-absolute top-0 end-0 translate-middle rounded-circle"
+                    (click)="removeIdentityCard()" aria-label="Supprimer la carte d'identité">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="proofOfAddress" class="form-label fw-medium">Justificatif de domicile *</label>
+            <input #proofOfAddressInput type="file" class="form-control" id="proofOfAddress" name="proofOfAddress"
+                accept="image/*" [class.is-invalid]="shouldShowError('proofOfAddress')"
+                (change)="updateProofOfAddress($event)">
+            @if (shouldShowError('proofOfAddress')) {
+            <div class="invalid-feedback d-block">Le justificatif de domicile est obligatoire.</div>
+            }
+            @if (proofOfAddressFile(); as proofOfAddress) {
+            <div class="mt-2 position-relative d-inline-block">
+                <img [src]="proofOfAddress.url" class="img-thumbnail" alt="Justificatif de domicile">
+                <button type="button"
+                    class="btn btn-danger btn-sm position-absolute top-0 end-0 translate-middle rounded-circle"
+                    (click)="removeProofOfAddress()" aria-label="Supprimer le justificatif de domicile">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            </div>
+            }
+        </div>
+
+        @if (car()?.service === 'Leasing') {
+        <div class="d-flex flex-column gap-2">
+            <h4>Options</h4>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="insurance" formControlName="insurance">
+                <label class="form-check-label" for="insurance">Assurance tout risque</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="roadsideAssistance"
+                    formControlName="roadsideAssistance">
+                <label class="form-check-label" for="roadsideAssistance">Assistance dépannage</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="maintenance" formControlName="maintenance">
+                <label class="form-check-label" for="maintenance">Entretien et SAV</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="technicalControl"
+                    formControlName="technicalControl">
+                <label class="form-check-label" for="technicalControl">Contrôle technique</label>
+            </div>
+        </div>
+        }
+
+        <button type="submit" class="btn btn-primary w-50 m-auto">
+            Envoyer
+        </button>
+
+    </form>
+    @if (submissionErrorMessage()) {
+    <div class="alert alert-danger mt-4" role="alert">
+        {{ submissionErrorMessage() }}
+    </div>
+    }
+</div>
