@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { map } from 'rxjs';
 import { AuthService } from './auth';
 
 export const loggedInGuard: CanActivateFn = (_, state) => {
@@ -10,6 +11,13 @@ export const loggedInGuard: CanActivateFn = (_, state) => {
     return true;
   }
 
-  router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-  return false;
+  return auth.loadSession().pipe(
+    map((user) => {
+      if (user) {
+        return true;
+      }
+
+      return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+    }),
+  );
 };

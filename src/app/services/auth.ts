@@ -16,7 +16,11 @@ export class AuthService {
 
   checkSession(): void {
     this.sessionCheck?.unsubscribe();
-    this.sessionCheck = this.loadCurrentUser(true).subscribe();
+    this.sessionCheck = this.loadSession().subscribe();
+  }
+
+  loadSession(): Observable<any | null> {
+    return this.loadCurrentUser(true);
   }
 
   login(data: any) {

@@ -48,6 +48,11 @@ export class ClientSubmission implements OnInit, OnDestroy {
         this.car.set(response.body);
       },
       error: (error) => {
+        if (error.status === 404) {
+          this.router.navigate(['/404']);
+          return;
+        }
+
         console.log(error);
       }
     });
@@ -150,7 +155,9 @@ export class ClientSubmission implements OnInit, OnDestroy {
     }
 
     this.api.submitClientFile(formData).subscribe({
-      next: () => this.router.navigate(['/cars'], { queryParams: { submission: 'success' } }),
+      next: () => {
+        this.router.navigate(['/profil']);
+      },
       error: (error) => {
         console.log(error);
         this.submissionErrorMessage.set(this.getSubmissionErrorMessage(error));

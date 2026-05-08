@@ -27,6 +27,18 @@ export class Api {
     return this.Http.get<any>(`${this.apiUrl}/user/profile`, this.httpOptions);
   }
 
+  getMyClientfiles(): Observable<HttpResponse<any>> {
+    return this.Http.get<any>(`${this.apiUrl}/clientfile/me`, this.httpOptions);
+  }
+
+  cancelMyClientfile(): Observable<HttpResponse<any>> {
+    return this.Http.post<any>(`${this.apiUrl}/clientfile/me/cancel`, {}, this.httpOptions);
+  }
+
+  findOneClientfile(id: string): Observable<HttpResponse<any>> {
+    return this.Http.get<any>(`${this.apiUrl}/clientfile/${id}`, this.httpOptions);
+  }
+
   signup(data: any): Observable<HttpResponse<any>> {
     return this.Http.post<any>(`${this.apiUrl}/auth/signup`, data, this.httpOptions);
   }
