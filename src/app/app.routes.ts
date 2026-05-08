@@ -4,6 +4,7 @@ import { Cars } from './pages/cars/cars';
 import { Profile } from './pages/profile/profile';
 import { loggedInGuard } from './services/logged-in.guard';
 import { CarDetailed } from './pages/car-detailed/car-detailed/car-detailed';
+import { ClientSubmission } from './pages/client-submission/client-submission';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,11 @@ export const routes: Routes = [
     {
         path: 'cars/:id',
         component: CarDetailed,
+    },
+    {
+        path: 'submission/:id',
+        component: ClientSubmission,
+        canActivate: [loggedInGuard],
     },
     {
         path: 'profil',

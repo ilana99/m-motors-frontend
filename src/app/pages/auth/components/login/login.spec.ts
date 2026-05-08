@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router, provideRouter } from '@angular/router';
+import { ActivatedRoute, Router, convertToParamMap, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { Login } from './login';
@@ -11,9 +11,12 @@ describe('Login', () => {
   let fixture: ComponentFixture<Login>;
   let loginSpy: any;
   let navigateSpy: any;
+  let navigateByUrlSpy: any;
+  let queryParamMap = convertToParamMap({});
 
   beforeEach(async () => {
     loginSpy = vi.fn();
+    queryParamMap = convertToParamMap({});
 
     await TestBed.configureTestingModule({
       imports: [Login],
@@ -25,10 +28,21 @@ describe('Login', () => {
             login: loginSpy,
           },
         },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              get queryParamMap() {
+                return queryParamMap;
+              },
+            },
+          },
+        },
       ],
     }).compileComponents();
 
     navigateSpy = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    navigateByUrlSpy = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
 
     fixture = TestBed.createComponent(Login);
     component = fixture.componentInstance;
@@ -69,7 +83,15 @@ describe('Login', () => {
       loginSpy.mockReturnValue(of({ status: 200 }));
       component.login();
 
-      expect(navigateSpy).toHaveBeenCalledWith(['/cars']);
+      expect(navigateByUrlSpy).toHaveBeenCalledWith('/cars');
+    });
+
+    it('should redirect to returnUrl on successful login', () => {
+      queryParamMap = convertToParamMap({ returnUrl: '/submission/1' });
+      loginSpy.mockReturnValue(of({ status: 200 }));
+      component.login();
+
+      expect(navigateByUrlSpy).toHaveBeenCalledWith('/submission/1');
     });
 
     it('should set loginResponse to "error" on 401 failure', () => {
@@ -80,6 +102,7 @@ describe('Login', () => {
 
       expect(component.loginResponse()).toBe('error');
       expect(navigateSpy).not.toHaveBeenCalled();
+      expect(navigateByUrlSpy).not.toHaveBeenCalled();
     });
 
     it('should move from error to connected on a later successful attempt', () => {
