@@ -4,7 +4,7 @@
         @if (car.images?.length) {
         <img [src]="car.images[0]" class="card-img-top gallery-car-image" [alt]="car.brand + ' ' + car.model">
         } @else {
-        <img src="car.jpg" class="card-img-top gallery-car-image" [alt]="car.brand + ' ' + car.model">
+        <img src="car.jpg" class="card-img-top gallery-car-image" alt="car placeholder">
         }
         <div class="card-body">
             <p class="card-text fw-bold">{{ getServiceLabel(car.service) }}</p>

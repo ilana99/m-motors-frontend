@@ -40,4 +40,53 @@
         </div>
     </div>
     }
+
+    @if (getPendingClientfiles().length) {
+    <h3 class="mt-4 text-center">Dossier en cours</h3>
+    <div class="container-fluid m-auto d-flex flex-wrap gap-3 my-4 justify-content-center">
+        @for (clientfile of getPendingClientfiles(); track clientfile.id || $index) {
+        <div class="card clientfile-card {{ getStatusClass(clientfile.status) }}" style="width: 18rem;"
+            [routerLink]="['/clientfile', clientfile.id]">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">Dossier client</h5>
+                </div>
+                <div>
+                    <div class="fw-bold mb-2">{{ getStatusLabel(clientfile.status) }}</div>
+                    <div>{{ getServiceLabel(clientfile.car.service) }}</div>
+                    <div>{{ clientfile.car.brand }} {{ clientfile.car.model }}</div>
+                    <button class="btn btn-primary mt-2" type="button"
+                        (click)="openCancelModal($event, clientfile)">Annuler ce dossier</button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+
+    <h3 class="mt-4 text-center">Dossiers passés</h3>
+    <div class=" container-fluid m-auto d-flex flex-wrap gap-3 my-4 justify-content-center">
+        @for (clientfile of getPastClientfiles(); track clientfile.id || $index) {
+        <div class="card clientfile-card {{ getStatusClass(clientfile.status) }}" style="width: 18rem;"
+            [routerLink]="['/clientfile', clientfile.id]">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title">Dossier client</h5>
+                </div>
+                <div>
+                    <div class="fw-bold mb-2">{{ getStatusLabel(clientfile.status) }}</div>
+                    <div>{{ getServiceLabel(clientfile.car.service) }}</div>
+                    <div>{{ clientfile.car.brand }} {{ clientfile.car.model }}</div>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <p class="text-body-secondary">Aucun dossier passé trouvé.</p>
+        }
+    </div>
+
+    @if (clientfileToCancel()) {
+    <app-modal [clientfile]="clientfileToCancel()" (closeModal)="closeCancelModal()"
+        (confirmCancel)="cancelClientfile()"></app-modal>
+    }
 </div>

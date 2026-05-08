@@ -21,6 +21,11 @@ export class CarDetailed implements OnInit {
           this.car.set(response.body);
         },
         error: (error) => {
+          if (error.status === 404) {
+            this.router.navigate(['/404']);
+            return;
+          }
+
           console.log(error);
         }
       })

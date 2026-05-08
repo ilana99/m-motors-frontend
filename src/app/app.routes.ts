@@ -5,6 +5,8 @@ import { Profile } from './pages/profile/profile';
 import { loggedInGuard } from './services/logged-in.guard';
 import { CarDetailed } from './pages/car-detailed/car-detailed/car-detailed';
 import { ClientSubmission } from './pages/client-submission/client-submission';
+import { ClientfileDetailed } from './pages/clientfile-detailed/clientfile-detailed';
+import { NotFound } from './pages/404/not-found/not-found';
 
 export const routes: Routes = [
     {
@@ -41,7 +43,12 @@ export const routes: Routes = [
         canActivate: [loggedInGuard],
     },
     {
+        path: 'clientfile/:id',
+        component: ClientfileDetailed,
+        canActivate: [loggedInGuard],
+    },
+    {
         path: '**',
-        redirectTo: 'cars',
+        component: NotFound,
     },
 ];

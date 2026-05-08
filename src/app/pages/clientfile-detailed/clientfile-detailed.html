@@ -1,0 +1,73 @@
+<div class="container-sm mt-4">
+    @if (clientfile(); as clientfile) {
+    <div class="d-flex align-items-center">
+        <button type="button" class="btn btn-lg" routerLink="/profil" aria-label="Retour au profil">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        <h2 class="text-center m-auto">Votre dossier</h2>
+    </div>
+
+    <div class="d-flex flex-column my-4">
+        <div class="card border-0 border-bottom rounded-0 w-100">
+            <div class="card-body">
+                <h5 class="card-title">Dossier</h5>
+                <p class="mb-0">Déposé le {{ clientfile.dateSubmitted }}</p>
+                <p class="fw-bold mb-0">{{ getStatusLabel(clientfile.status) }}</p>
+            </div>
+        </div>
+
+        <div class="card border-0 border-bottom rounded-0 w-100">
+            <div class="row g-0">
+                <div class="col-5">
+                    @if (clientfile.car.images?.length) {
+                    <img [src]="clientfile.car.images[0]" class="clientfile-car-image rounded-start object-fit-cover"
+                        [alt]="clientfile.car.brand + ' ' + clientfile.car.model">
+                    } @else {
+                    <img src="/car.jpg" class="clientfile-car-image rounded-start object-fit-cover"
+                        alt="car placeholder">
+                    }
+                </div>
+                <div class="col-7">
+                    <div class="card-body">
+                        <h5 class="card-title">Voiture</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">
+                            {{ clientfile.car.brand }} {{ clientfile.car.model }}
+                        </h6>
+                        <p class="mb-1">{{ getServiceLabel(clientfile.car.service) }}</p>
+                        @if (clientfile.car.service === 'Leasing') {
+                        <p class="card-text">À partir de <b>{{ clientfile.car.price }}</b> € / mois</p>
+                        } @else {
+                        <p class="card-text fw-bold">{{ clientfile.car.price }} €</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 border-bottom rounded-0 w-100">
+            <div class="card-body">
+                <h5 class="card-title">Documents</h5>
+                <div class="d-flex flex-column gap-2">
+                    <a [href]="clientfile.identityCard" target="_blank">Carte d'identité</a>
+                    <a [href]="clientfile.proofOfAddress" target="_blank">Justificatif de domicile</a>
+                </div>
+            </div>
+        </div>
+
+        @if (clientfile.insurance !== undefined || clientfile.roadsideAssistance !== undefined ||
+        clientfile.maintenance !== undefined || clientfile.technicalControl !== undefined) {
+        <div class="card border-0 border-bottom rounded-0 w-100">
+            <div class="card-body">
+                <h5 class="card-title">Options</h5>
+                <p class="mb-1">Assurance tout risque: {{ clientfile.insurance ? 'Oui' : 'Non' }}</p>
+                <p class="mb-1">Assistance dépannage: {{ clientfile.roadsideAssistance ? 'Oui' : 'Non' }}</p>
+                <p class="mb-1">Entretien et SAV: {{ clientfile.maintenance ? 'Oui' : 'Non' }}</p>
+                <p class="mb-0">Contrôle technique: {{ clientfile.technicalControl ? 'Oui' : 'Non' }}</p>
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+    <p class="text-body-secondary text-center">Chargement du dossier client...</p>
+    }
+</div>
