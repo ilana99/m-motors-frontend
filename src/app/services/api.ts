@@ -15,6 +15,10 @@ export class Api {
 
   constructor(private Http: HttpClient) { }
 
+  signup(data: any): Observable<HttpResponse<any>> {
+    return this.Http.post<any>(`${this.apiUrl}/auth/signup`, data, this.httpOptions);
+  }
+
   login(data: any): Observable<HttpResponse<any>> {
     return this.Http.post<any>(`${this.apiUrl}/auth/loginUser`, data, this.httpOptions);
   }
@@ -39,9 +43,6 @@ export class Api {
     return this.Http.get<any>(`${this.apiUrl}/clientfile/${id}`, this.httpOptions);
   }
 
-  signup(data: any): Observable<HttpResponse<any>> {
-    return this.Http.post<any>(`${this.apiUrl}/auth/signup`, data, this.httpOptions);
-  }
 
   logout(): Observable<HttpResponse<any>> {
     return this.Http.post<any>(`${this.apiUrl}/auth/logout`, {}, this.httpOptions);

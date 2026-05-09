@@ -75,16 +75,6 @@ export class Profile implements OnInit {
     return 'bg-light';
   }
 
-  getFilteredClientfiles() {
-    const status = this.selectedStatus();
-
-    if (!status) {
-      return this.clientfile();
-    }
-
-    return this.clientfile().filter((clientfile) => clientfile.status === status);
-  }
-
   getPendingClientfiles() {
     return this.clientfile().filter((clientfile) => clientfile.status === 'Pending');
   }
