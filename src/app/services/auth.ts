@@ -16,11 +16,7 @@ export class AuthService {
 
   checkSession(): void {
     this.sessionCheck?.unsubscribe();
-    this.sessionCheck = this.loadSession().subscribe();
-  }
-
-  loadSession(): Observable<any | null> {
-    return this.loadCurrentUser(true);
+    this.sessionCheck = this.loadCurrentUser(true).subscribe();
   }
 
   login(data: any) {
@@ -47,7 +43,15 @@ export class AuthService {
 
   private loadCurrentUser(suppressError: boolean): Observable<any | null> {
     return this.api.me().pipe(
-      map((response) => response.body ?? null),
+      map((response) => {
+        const user = response.body ?? null;
+
+        if (user?.role !== 'user') {
+          throw new Error('Unauthorized role');
+        }
+
+        return user;
+      }),
       tap((user) => {
         this.userState.set(user);
       }),
