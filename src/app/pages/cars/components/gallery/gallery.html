@@ -1,3 +1,17 @@
+@if (cars().length) {
+<div class="d-flex flex-column flex-md-row gap-2 justify-content-md-end mt-4">
+    <input class="form-control gallery-filter-control" type="search" placeholder="Rechercher une voiture"
+        [value]="selectedSearch()" (input)="changeSearch($any($event.target).value)">
+    <select class="form-select gallery-filter-control" [value]="selectedService()"
+        (change)="changeService($any($event.target).value)">
+        <option value="">Toutes les voitures</option>
+        @for (service of services; track service) {
+        <option [value]="service">{{ getServiceLabel(service) }}</option>
+        }
+    </select>
+</div>
+}
+
 <div class="container-fluid m-auto d-flex flex-wrap gap-3 my-4 justify-content-center">
     @for (car of getPagedCars(); track car.id || $index) {
     <div class="card bg-light car-card" style="width: 18rem;" (click)="navigateToDetailedCarPage(car.id)">

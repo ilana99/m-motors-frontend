@@ -1,3 +1,13 @@
+.gallery-filter-control {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .gallery-filter-control {
+        width: 25%;
+    }
+}
+
 .car-card {
     transition: all 0.2s ease-in-out;
     &:hover {

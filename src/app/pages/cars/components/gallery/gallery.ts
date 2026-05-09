@@ -9,6 +9,9 @@ import { Router } from "@angular/router";
 })
 export class Gallery implements OnInit {
   cars = signal<any[]>([]);
+  selectedService = signal('');
+  selectedSearch = signal('');
+  services = ['Leasing', 'Sale'];
   currentPage = 1;
   pageSize = 12;
   private router = inject(Router);
@@ -28,6 +31,16 @@ export class Gallery implements OnInit {
     this.router.navigate(['/cars', carId])
   }
 
+  changeService(service: string) {
+    this.selectedService.set(service);
+    this.currentPage = 1;
+  }
+
+  changeSearch(search: string) {
+    this.selectedSearch.set(search);
+    this.currentPage = 1;
+  }
+
   getServiceLabel(service: string): string {
     if (service === 'Leasing') {
       return 'Location';
@@ -40,14 +53,26 @@ export class Gallery implements OnInit {
     return service;
   }
 
+  getFilteredCars(): any[] {
+    const service = this.selectedService();
+    const search = this.selectedSearch().trim().toLowerCase();
+
+    return this.cars().filter((car) => {
+      const matchesService = !service || car.service === service;
+      const matchesSearch = !search || `${car.brand} ${car.model}`.toLowerCase().includes(search);
+
+      return matchesService && matchesSearch;
+    });
+  }
+
   getPagedCars(): any[] {
     const start = (this.currentPage - 1) * this.pageSize;
 
-    return this.cars().slice(start, start + this.pageSize);
+    return this.getFilteredCars().slice(start, start + this.pageSize);
   }
 
   getTotalPages(): number {
-    return Math.ceil(this.cars().length / this.pageSize);
+    return Math.ceil(this.getFilteredCars().length / this.pageSize);
   }
 
   getPages(): number[] {
