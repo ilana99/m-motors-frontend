@@ -24,7 +24,7 @@ export class Api {
   }
 
   me(): Observable<HttpResponse<any>> {
-    return this.Http.get<any>(`${this.apiUrl}/auth/me`, this.httpOptions);
+    return this.Http.get<any>(`${this.apiUrl}/auth/meUser`, this.httpOptions);
   }
 
   getProfile(): Observable<HttpResponse<any>> {
@@ -45,7 +45,7 @@ export class Api {
 
 
   logout(): Observable<HttpResponse<any>> {
-    return this.Http.post<any>(`${this.apiUrl}/auth/logout`, {}, this.httpOptions);
+    return this.Http.post<any>(`${this.apiUrl}/auth/logout`, { role: 'user' }, this.httpOptions);
   }
 
   findAllCars(): Observable<HttpResponse<any>> {
