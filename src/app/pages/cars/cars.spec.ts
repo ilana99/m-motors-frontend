@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { describe, it, beforeEach, expect } from 'vitest';
 
 import { Cars } from './cars';
 
@@ -10,16 +10,6 @@ describe('Cars', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Cars],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              queryParamMap: convertToParamMap({}),
-            },
-          },
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Cars);

@@ -31,6 +31,25 @@ export class AuthService {
     );
   }
 
+  signup(data: any) {
+    this.sessionCheck?.unsubscribe();
+
+    return this.api.signup(data).pipe(
+      switchMap((signupResponse) =>
+        this.api.login({
+          email: data.email,
+          password: data.password,
+        }).pipe(
+          switchMap(() =>
+            this.loadCurrentUser(false).pipe(
+              map(() => signupResponse),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   logout() {
     this.sessionCheck?.unsubscribe();
 
