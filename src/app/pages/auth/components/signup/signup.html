@@ -59,7 +59,7 @@
         </div>
         <button type="submit" class="btn btn-primary w-50 m-auto" [disabled]="signupForm.invalid">S'inscrire</button>
     </form>
-    @if (signupReponse() === 'error') {
+    @if (signupResponse() === 'error') {
     <p class="text-danger">Erreur lors de la création.</p>
     }
 </div>

@@ -12,7 +12,6 @@ import { Modal } from './components/modal/modal';
 export class Profile implements OnInit {
   user = signal<any | null>(null);
   clientfile = signal<any[]>([]);
-  selectedStatus = signal('');
   clientfileToCancel = signal<any | null>(null);
   private statusLabels: Record<string, string> = {
     Accepted: 'Accepté',
@@ -45,10 +44,6 @@ export class Profile implements OnInit {
         console.log(error);
       }
     });
-  }
-
-  changeStatus(status: string) {
-    this.selectedStatus.set(status);
   }
 
   getStatusLabel(status: string): string {

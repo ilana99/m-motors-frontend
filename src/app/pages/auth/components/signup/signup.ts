@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Api } from '../../../../services/api';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrl: './signup.scss',
 })
 export class Signup {
-  signupReponse = signal('');
+  signupResponse = signal('');
 
   signupForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -21,26 +21,26 @@ export class Signup {
     birthday: new FormControl('', Validators.required)
   });
 
-  constructor(private apiService: Api, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   signup(): void {
     if (this.signupForm.invalid) {
       return;
     }
 
-    this.signupReponse.set('');
+    this.signupResponse.set('');
 
     const data = this.signupForm.value;
 
-    this.apiService.signup(data).subscribe({
+    this.auth.signup(data).subscribe({
       next: (response: HttpResponse<any>) => {
         if (response.status === 201) {
-          this.signupReponse.set('accepted');
+          this.signupResponse.set('accepted');
           this.router.navigate(['/']);
         }
       },
       error: (error: HttpErrorResponse) => {
-        this.signupReponse.set('error');
+        this.signupResponse.set('error');
         console.log(error);
       }
     })
